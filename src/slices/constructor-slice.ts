@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TOrder } from '@utils-types';
 
-type ConstructorState = {
+type TConstructorState = {
   constructorItems: {
     bun: TConstructorIngredient | null;
     ingredients: TConstructorIngredient[];
@@ -10,7 +10,7 @@ type ConstructorState = {
   orderModalData: TOrder | null;
 };
 
-const initialState: ConstructorState = {
+const initialState: TConstructorState = {
   constructorItems: {
     bun: null,
     ingredients: []

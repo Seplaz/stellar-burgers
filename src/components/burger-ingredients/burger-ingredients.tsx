@@ -8,10 +8,6 @@ import { useSelector } from '../../services/store';
 import { Preloader } from '@ui';
 
 export const BurgerIngredients: FC = () => {
-  /** TODO: взять переменные из стора */
-  // const buns = [];
-  // const mains = [];
-  // const sauces = [];
   const { items, isLoading, error } = useSelector(
     (state) => state.burgerIngredients
   );
