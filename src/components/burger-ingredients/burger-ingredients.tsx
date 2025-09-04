@@ -5,12 +5,9 @@ import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 
 import { useSelector } from '../../services/store';
-import { Preloader } from '@ui';
 
 export const BurgerIngredients: FC = () => {
-  const { items, isLoading, error } = useSelector(
-    (state) => state.burgerIngredients
-  );
+  const { items } = useSelector((state) => state.burgerIngredients);
 
   const buns = items.filter((item) => item.type === 'bun');
   const mains = items.filter((item) => item.type === 'main');
@@ -52,9 +49,6 @@ export const BurgerIngredients: FC = () => {
     if (tab === 'sauce')
       titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  if (isLoading) return <Preloader />;
-  if (error) return <p>{error}</p>;
 
   return (
     <BurgerIngredientsUI
