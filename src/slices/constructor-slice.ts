@@ -8,6 +8,7 @@ type TConstructorState = {
   };
   orderRequest: boolean;
   orderModalData: TOrder | null;
+  orderError: string | null;
 };
 
 const initialState: TConstructorState = {
@@ -16,7 +17,8 @@ const initialState: TConstructorState = {
     ingredients: []
   },
   orderRequest: false,
-  orderModalData: null
+  orderModalData: null,
+  orderError: null
 };
 
 const constructorSlice = createSlice({
@@ -40,8 +42,16 @@ const constructorSlice = createSlice({
       reducer: (state, action: PayloadAction<{ from: number; to: number }>) => {
         const { from, to } = action.payload;
         const ingredients = state.constructorItems.ingredients;
-        const [movedItem] = ingredients.splice(from, 1);
-        ingredients.splice(to, 0, movedItem);
+        if (
+          from >= 0 &&
+          from < ingredients.length &&
+          to >= 0 &&
+          to < ingredients.length &&
+          from !== to
+        ) {
+          const [movedItem] = ingredients.splice(from, 1);
+          ingredients.splice(to, 0, movedItem);
+        }
       },
       prepare: (from: number, to: number) => ({
         payload: { from, to }
@@ -62,6 +72,9 @@ const constructorSlice = createSlice({
     },
     setOrderRequest(state, action: PayloadAction<boolean>) {
       state.orderRequest = action.payload;
+    },
+    setOrderError(state, action: PayloadAction<string | null>) {
+      state.orderError = action.payload;
     }
   }
 });
@@ -72,7 +85,8 @@ export const {
   removeIngredient,
   clearConstructor,
   setOrderModalData,
-  setOrderRequest
+  setOrderRequest,
+  setOrderError
 } = constructorSlice.actions;
 
 export default constructorSlice.reducer;

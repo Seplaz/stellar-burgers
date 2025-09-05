@@ -1,17 +1,44 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { useSelector } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
+import {
+  setOrderRequest,
+  setOrderModalData,
+  setOrderError
+} from '../../slices/constructor-slice';
+import { orderBurgerApi } from '@api';
 
 export const BurgerConstructor: FC = () => {
   const { constructorItems, orderRequest, orderModalData } = useSelector(
     (state) => state.burgerConstructor
   );
 
-  const onOrderClick = () => {
+  const dispatch = useDispatch();
+
+  const onOrderClick = async () => {
     if (!constructorItems.bun || orderRequest) return;
+
+    try {
+      dispatch(setOrderRequest(true));
+      const ingredients = [
+        constructorItems.bun._id,
+        ...constructorItems.ingredients.map((item) => item._id),
+        constructorItems.bun._id
+      ];
+
+      const orderData = await orderBurgerApi(ingredients);
+      dispatch(setOrderModalData(orderData.order));
+    } catch (error) {
+      dispatch(setOrderError('Не удалось создать заказ. Попробуйте еще раз.'));
+    } finally {
+      dispatch(setOrderRequest(false));
+    }
   };
-  const closeOrderModal = () => {};
+
+  const closeOrderModal = () => {
+    dispatch(setOrderModalData(null));
+  };
 
   const price = useMemo(
     () =>
