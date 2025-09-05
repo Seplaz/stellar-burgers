@@ -18,9 +18,9 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 import { useDispatch } from '../../services/store';
 import { fetchIngredients } from '../../slices/ingredients-slice';
 import { useEffect } from 'react';
-import { getCookie } from '../../utils/cookie';
+import { deleteCookie, getCookie } from '../../utils/cookie';
 import { fetchUser } from '../../slices/user-slice';
-import { setAuthChecked } from '../../slices/auth-slice';
+import { checkAuth, setAuthChecked } from '../../slices/auth-slice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,10 +33,9 @@ const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (getCookie('accessToken')) {
-      dispatch(fetchUser())
-        .then(() => dispatch(setAuthChecked()))
-        .catch(() => dispatch(setAuthChecked()));
+    const token = getCookie('accessToken');
+    if (token) {
+      dispatch(checkAuth()).finally(() => dispatch(setAuthChecked()));
     } else {
       dispatch(setAuthChecked());
     }

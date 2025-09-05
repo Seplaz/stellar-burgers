@@ -1,7 +1,32 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { loginUserApi, registerUserApi, logoutApi } from '@api';
-import { TLoginData, TRegisterData } from '@api';
-import { deleteCookie, setCookie } from '../utils/cookie';
+import {
+  loginUserApi,
+  registerUserApi,
+  logoutApi,
+  TLoginData,
+  TRegisterData,
+  getUserApi
+} from '@api';
+import { deleteCookie, getCookie, setCookie } from '../utils/cookie';
+
+export const checkAuth = createAsyncThunk(
+  'auth/checkAuth',
+  async (_, { dispatch, rejectWithValue }) => {
+    const token = getCookie('accessToken');
+    if (!token) {
+      return rejectWithValue('No token');
+    }
+
+    try {
+      const userData = await getUserApi();
+      return userData;
+    } catch (error) {
+      deleteCookie('accessToken');
+      localStorage.removeItem('refreshToken');
+      throw error;
+    }
+  }
+);
 
 export const login = createAsyncThunk(
   'auth/login',
@@ -24,9 +49,14 @@ export const register = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk('auth/logout', async () => {
-  await logoutApi();
+  try {
+    await logoutApi();
+  } catch (error) {
+    console.log(`Ошибка при совершении выхода из профиля: ${error}`);
+  }
   deleteCookie('accessToken');
   deleteCookie('refreshToken');
+  localStorage.removeItem('refreshToken');
 });
 
 type TAuthState = {

@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from '../../services/store';
 import {
   setOrderRequest,
   setOrderModalData,
-  setOrderError
+  setOrderError,
+  clearConstructor
 } from '../../slices/constructor-slice';
 import { orderBurgerApi } from '@api';
 import { isAuthenticatedSelector } from '../../slices/auth-slice';
@@ -36,6 +37,7 @@ export const BurgerConstructor: FC = () => {
 
       const orderData = await orderBurgerApi(ingredients);
       dispatch(setOrderModalData(orderData.order));
+      dispatch(clearConstructor());
     } catch (error) {
       dispatch(setOrderError('Не удалось создать заказ. Попробуйте еще раз.'));
     } finally {
