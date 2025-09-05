@@ -18,6 +18,9 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 import { useDispatch } from '../../services/store';
 import { fetchIngredients } from '../../slices/ingredients-slice';
 import { useEffect } from 'react';
+import { getCookie } from '../../utils/cookie';
+import { fetchUser } from '../../slices/user-slice';
+import { setAuthChecked } from '../../slices/auth-slice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -27,6 +30,16 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (getCookie('accessToken')) {
+      dispatch(fetchUser())
+        .then(() => dispatch(setAuthChecked()))
+        .catch(() => dispatch(setAuthChecked()));
+    } else {
+      dispatch(setAuthChecked());
+    }
   }, [dispatch]);
 
   return (
@@ -39,7 +52,7 @@ const App = () => {
         <Route
           path='/login'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Login />
             </ProtectedRoute>
           }
@@ -47,7 +60,7 @@ const App = () => {
         <Route
           path='/register'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Register />
             </ProtectedRoute>
           }
@@ -55,7 +68,7 @@ const App = () => {
         <Route
           path='/forgot-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <ForgotPassword />
             </ProtectedRoute>
           }
@@ -63,7 +76,7 @@ const App = () => {
         <Route
           path='/reset-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <ResetPassword />
             </ProtectedRoute>
           }

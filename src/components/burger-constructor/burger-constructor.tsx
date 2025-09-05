@@ -8,16 +8,23 @@ import {
   setOrderError
 } from '../../slices/constructor-slice';
 import { orderBurgerApi } from '@api';
+import { isAuthenticatedSelector } from '../../slices/auth-slice';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   const { constructorItems, orderRequest, orderModalData } = useSelector(
     (state) => state.burgerConstructor
   );
-
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(isAuthenticatedSelector);
+  const navigate = useNavigate();
 
   const onOrderClick = async () => {
     if (!constructorItems.bun || orderRequest) return;
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
 
     try {
       dispatch(setOrderRequest(true));
