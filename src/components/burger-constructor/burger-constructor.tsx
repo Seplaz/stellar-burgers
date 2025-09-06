@@ -7,9 +7,9 @@ import {
   setOrderModalData,
   setOrderError,
   clearConstructor
-} from '../../slices/constructor-slice';
+} from '../../services/slices/constructor-slice';
 import { orderBurgerApi } from '@api';
-import { isAuthenticatedSelector } from '../../slices/auth-slice';
+import { isAuthenticatedSelector } from '../../services/slices/auth-slice';
 import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {

@@ -1,7 +1,7 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from '../../services/store';
-import { userSelector, updateUser } from '../../slices/user-slice';
+import { userSelector, updateUser } from '../../services/slices/user-slice';
 import { TRegisterData } from '@api';
 
 export const Profile: FC = () => {
@@ -41,7 +41,14 @@ export const Profile: FC = () => {
       updateData.password = formValue.password;
     }
 
-    dispatch(updateUser(updateData));
+    dispatch(updateUser(updateData))
+      .unwrap()
+      .then(() => {
+        setFormValue((prev) => ({
+          ...prev,
+          password: ''
+        }));
+      });
   };
 
   const handleCancel = (e: SyntheticEvent) => {

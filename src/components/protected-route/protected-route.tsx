@@ -5,7 +5,7 @@ import { Preloader } from '@ui';
 import {
   isAuthenticatedSelector,
   isAuthCheckedSelector
-} from '../../slices/auth-slice';
+} from '../../services/slices/auth-slice';
 
 type ProtectedRouteProps = {
   children: ReactElement;

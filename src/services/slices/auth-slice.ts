@@ -7,7 +7,7 @@ import {
   TRegisterData,
   getUserApi
 } from '@api';
-import { deleteCookie, getCookie, setCookie } from '../utils/cookie';
+import { deleteCookie, getCookie, setCookie } from '../../utils/cookie';
 
 export const checkAuth = createAsyncThunk(
   'auth/checkAuth',

@@ -16,11 +16,10 @@ import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { useDispatch } from '../../services/store';
-import { fetchIngredients } from '../../slices/ingredients-slice';
+import { fetchIngredients } from '../../services/slices/ingredients-slice';
 import { useEffect } from 'react';
-import { deleteCookie, getCookie } from '../../utils/cookie';
-import { fetchUser } from '../../slices/user-slice';
-import { checkAuth, setAuthChecked } from '../../slices/auth-slice';
+import { getCookie } from '../../utils/cookie';
+import { checkAuth, setAuthChecked } from '../../services/slices/auth-slice';
 
 const App = () => {
   const dispatch = useDispatch();
