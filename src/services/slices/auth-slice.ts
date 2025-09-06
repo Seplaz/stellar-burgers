@@ -13,8 +13,10 @@ export const checkAuth = createAsyncThunk(
   'auth/checkAuth',
   async (_, { dispatch, rejectWithValue }) => {
     const token = getCookie('accessToken');
-    if (!token) {
-      return rejectWithValue('No token');
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (!token && !refreshToken) {
+      return rejectWithValue('No tokens');
     }
 
     try {
@@ -34,6 +36,7 @@ export const login = createAsyncThunk(
     const data = await loginUserApi(loginData);
     setCookie('accessToken', data.accessToken);
     setCookie('refreshToken', data.refreshToken);
+    localStorage.setItem('refreshToken', data.refreshToken);
     return data;
   }
 );
@@ -44,6 +47,7 @@ export const register = createAsyncThunk(
     const data = await registerUserApi(registerData);
     setCookie('accessToken', data.accessToken);
     setCookie('refreshToken', data.refreshToken);
+    localStorage.setItem('refreshToken', data.refreshToken);
     return data;
   }
 );
@@ -92,6 +96,14 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(checkAuth.fulfilled, (state) => {
+        state.isAuthenticated = true;
+        state.isAuthChecked = true;
+      })
+      .addCase(checkAuth.rejected, (state) => {
+        state.isAuthenticated = false;
+        state.isAuthChecked = true;
+      })
       .addCase(login.pending, (state) => {
         state.isLoading = true;
         state.error = null;

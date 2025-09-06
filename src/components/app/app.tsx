@@ -33,7 +33,9 @@ const App = () => {
 
   useEffect(() => {
     const token = getCookie('accessToken');
-    if (token) {
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (token || refreshToken) {
       dispatch(checkAuth()).finally(() => dispatch(setAuthChecked()));
     } else {
       dispatch(setAuthChecked());

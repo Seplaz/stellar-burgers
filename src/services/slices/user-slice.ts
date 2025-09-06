@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getUserApi, updateUserApi } from '@api';
 import { TUser } from '@utils-types';
 import { TRegisterData } from '@api';
-import { login, register, logout } from './auth-slice';
+import { login, register, logout, checkAuth } from './auth-slice';
 
 export const fetchUser = createAsyncThunk('user/fetchUser', getUserApi);
 
@@ -37,6 +37,12 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+      })
+      .addCase(checkAuth.rejected, (state) => {
+        state.user = null;
+      })
       .addCase(fetchUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
