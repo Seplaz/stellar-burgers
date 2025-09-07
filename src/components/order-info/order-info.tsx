@@ -1,16 +1,25 @@
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useEffect } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
-import { useSelector } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
 import { useParams } from 'react-router-dom';
+import { fetchFeeds } from '../../services/slices/feed-slice';
 
 export const OrderInfo: FC = () => {
   const { number } = useParams();
+  const dispatch = useDispatch();
   const ingredients = useSelector((state) => state.burgerIngredients.items);
   const orderData = useSelector((state) =>
     state.feed.orders.find((order) => order.number === Number(number))
   );
+  const orders = useSelector((state) => state.feed.orders);
+
+  useEffect(() => {
+    if (!orders.length) {
+      dispatch(fetchFeeds());
+    }
+  }, [orders.length, dispatch]);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
