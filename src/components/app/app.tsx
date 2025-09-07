@@ -13,7 +13,13 @@ import '../../index.css';
 import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  useParams
+} from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { useDispatch } from '../../services/store';
 import { fetchIngredients } from '../../services/slices/ingredients-slice';
@@ -26,6 +32,8 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state && location.state.background;
+  const pathSegments = location.pathname.split('/');
+  const number = pathSegments[pathSegments.length - 1];
 
   useEffect(() => {
     dispatch(fetchIngredients());
@@ -106,7 +114,7 @@ const App = () => {
             path='/feed/:number'
             element={
               <Modal
-                title='Детали заказа'
+                title={`#${number}`}
                 onClose={() => {
                   navigate(-1);
                 }}
@@ -133,7 +141,7 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Modal
-                  title='Информация о заказе'
+                  title={`#${number}`}
                   onClose={() => {
                     navigate(-1);
                   }}
