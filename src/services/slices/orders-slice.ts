@@ -1,4 +1,3 @@
-// Создать src/slices/user-orders-slice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getOrdersApi } from '@api';
 import { TOrder } from '@utils-types';

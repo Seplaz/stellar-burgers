@@ -55,8 +55,17 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message || 'Ошибка загрузки пользователя';
       })
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(updateUser.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.user = action.payload;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || 'Ошибка обновления пользователя';
       })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload.user;
