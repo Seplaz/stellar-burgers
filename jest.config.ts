@@ -25,21 +25,36 @@ const config: JestConfigWithTsJest = {
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/**/*.test.{ts,tsx}',
+    '!src/**/*.stories.{ts,tsx}',
+    '!src/index.tsx',
+    '!src/stories/**',
+    '!src/**/*.d.ts'
   ],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
-  // ],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '/coverage/',
+    '/cypress/',
+    '\\.stories\\.',
+    '\\.d\\.ts$'
+  ],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: 'v8',
 
   // A list of reporter names that Jest uses when writing coverage reports
-  coverageReporters: ['json', 'lcov', 'html', 'clover', ['text', {skipFull: true}]],
+  coverageReporters: [
+    'json',
+    'lcov',
+    'html',
+    'clover',
+    'text-summary',
+    ['text', { skipFull: true }]
+  ],
 
   // An object that configures minimum threshold enforcement for coverage results
   coverageThreshold: {
@@ -119,7 +134,17 @@ const config: JestConfigWithTsJest = {
   // projects: undefined,
 
   // Use this configuration option to add custom reporters to Jest
-  // reporters: undefined,
+  reporters: [
+    'default',
+    [
+      'jest-html-reporters',
+      {
+        publicPath: './html-report',
+        filename: 'report.html',
+        openReport: true
+      }
+    ]
+  ],
 
   // Automatically reset mock state before every test
   // resetMocks: false,
