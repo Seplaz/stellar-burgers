@@ -27,7 +27,9 @@ describe('Тестирование слайса [user-slice]', () => {
 
   test('fetchUser fulfilled - user записывается в стор, isLoading false', () => {
     const stateWithLoading = { ...initialState, isLoading: true };
-    const userData = { user: { name: 'User', email: 'user@test.com' } };
+    const userData = {
+      user: { name: 'Василий Пупкин', email: 'vasyapupkin@test.com' }
+    };
 
     const newState = reducer(stateWithLoading, {
       type: fetchUser.fulfilled.type,
@@ -60,9 +62,9 @@ describe('Тестирование слайса [user-slice]', () => {
   test('updateUser fulfilled - user обновляется в сторе', () => {
     const stateWithUser = {
       ...initialState,
-      user: { name: 'user', email: 'user@test.com' } as any
+      user: { name: 'Василий Пупкин', email: 'vasyapupkin@test.com' } as any
     };
-    const updatedUser = { name: 'newUser', email: 'newUser@test.com' };
+    const updatedUser = { name: 'Бас Стасов', email: 'basstasov@test.com' };
 
     const newState = reducer(stateWithUser, {
       type: updateUser.fulfilled.type,
