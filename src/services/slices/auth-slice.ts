@@ -70,7 +70,7 @@ type TAuthState = {
   isAuthChecked: boolean;
 };
 
-const initialState: TAuthState = {
+export const initialState: TAuthState = {
   isAuthenticated: false,
   isLoading: false,
   error: null,

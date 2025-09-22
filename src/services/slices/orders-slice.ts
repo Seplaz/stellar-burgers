@@ -1,4 +1,3 @@
-// Создать src/slices/user-orders-slice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getOrdersApi } from '@api';
 import { TOrder } from '@utils-types';
@@ -14,7 +13,7 @@ type TOrdersState = {
   error: string | null;
 };
 
-const initialState: TOrdersState = {
+export const initialState: TOrdersState = {
   orders: [],
   isLoading: false,
   error: null
