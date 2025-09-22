@@ -1,5 +1,5 @@
 import { jest, describe, test, expect } from '@jest/globals';
-import reducer, { fetchIngredients } from './ingredients-slice';
+import reducer, { fetchIngredients, initialState } from './ingredients-slice';
 
 jest.mock(
   '@api',
@@ -11,12 +11,6 @@ jest.mock(
 
 describe('Тестирование слайса [ingredients-slice]', () => {
   test('fetchIngredients pending - isLoading меняется на true', () => {
-    const initialState = {
-      items: [],
-      isLoading: false,
-      error: null
-    };
-
     const newState = reducer(initialState, {
       type: fetchIngredients.pending.type
     });

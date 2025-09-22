@@ -21,16 +21,15 @@ jest.mock(
   { virtual: true }
 );
 
-import reducer, { login, register, checkAuth, logout } from './auth-slice';
+import reducer, {
+  login,
+  register,
+  checkAuth,
+  logout,
+  initialState
+} from './auth-slice';
 
 describe('Тестирование слайса [auth-slice]', () => {
-  const initialState = {
-    isAuthenticated: false,
-    isLoading: false,
-    error: null,
-    isAuthChecked: false
-  };
-
   test('login pending - isLoading меняется на true', () => {
     const newState = reducer(initialState, { type: login.pending.type });
 

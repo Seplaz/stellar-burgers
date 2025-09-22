@@ -9,15 +9,9 @@ jest.mock(
   { virtual: true }
 );
 
-import reducer, { fetchUser, updateUser } from './user-slice';
+import reducer, { fetchUser, updateUser, initialState } from './user-slice';
 
 describe('Тестирование слайса [user-slice]', () => {
-  const initialState = {
-    user: null,
-    isLoading: false,
-    error: null
-  };
-
   test('fetchUser pending - isLoading меняется на true', () => {
     const newState = reducer(initialState, { type: fetchUser.pending.type });
 

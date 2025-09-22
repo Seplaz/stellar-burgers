@@ -8,19 +8,9 @@ jest.mock(
   { virtual: true }
 );
 
-import reducer, { fetchFeeds } from './feed-slice';
+import reducer, { fetchFeeds, initialState } from './feed-slice';
 
 describe('Тестирование слайса [feed-slice]', () => {
-  const initialState = {
-    orders: [],
-    feed: {
-      total: 0,
-      totalToday: 0
-    },
-    isLoading: false,
-    error: null
-  };
-
   test('fetchFeeds pending - isLoading меняется на true', () => {
     const newState = reducer(initialState, { type: fetchFeeds.pending.type });
 

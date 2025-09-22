@@ -11,7 +11,7 @@ type TConstructorState = {
   orderError: string | null;
 };
 
-const initialState: TConstructorState = {
+export const initialState: TConstructorState = {
   constructorItems: {
     bun: null,
     ingredients: []

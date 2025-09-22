@@ -2,21 +2,12 @@ import { describe, test, expect } from '@jest/globals';
 import constructorReducer, {
   addIngredient,
   removeIngredient,
-  moveIngredient
+  moveIngredient,
+  initialState
 } from './constructor-slice';
 
 describe('Тестирование слайса [constructor-slice]', () => {
-  const initialState = {
-    constructorItems: {
-      bun: null,
-      ingredients: []
-    },
-    orderRequest: false,
-    orderModalData: null,
-    orderError: null
-  };
-
-  test('добавление булки', () => {
+  test('Добавление булки', () => {
     const newState = constructorReducer(
       initialState,
       addIngredient({ type: 'bun', name: 'Булка' } as any)
@@ -27,7 +18,7 @@ describe('Тестирование слайса [constructor-slice]', () => {
     expect(newState.constructorItems.bun).toHaveProperty('id');
   });
 
-  test('добавление ингредиента', () => {
+  test('Добавление ингредиента', () => {
     const newState = constructorReducer(
       initialState,
       addIngredient({ type: 'main', name: 'Начинка' } as any)
@@ -39,7 +30,7 @@ describe('Тестирование слайса [constructor-slice]', () => {
     expect(ingredients[0]).toHaveProperty('id');
   });
 
-  test('удаление ингредиента', () => {
+  test('Удаление ингредиента', () => {
     const stateWithIngredients = {
       ...initialState,
       constructorItems: {
@@ -61,7 +52,7 @@ describe('Тестирование слайса [constructor-slice]', () => {
     expect(ingredients[0].name).toBe('B');
   });
 
-  test('изменение порядка ингредиентов', () => {
+  test('Изменение порядка ингредиентов', () => {
     const stateWithIngredients = {
       ...initialState,
       constructorItems: {
